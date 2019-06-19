@@ -1,10 +1,11 @@
 package sample;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.effect.SepiaTone;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,126 +17,149 @@ import java.util.regex.Pattern;
 public class Controller {
     public TextField arabic,roman;
     public Label exit;
+    public Button goButton;
 
-    private int newNumber(int number, int val, int factor, boolean subtract) { 
+    private int newNumber(int number, int val, int factor, boolean subtract) {
         return (int) (subtract ? number - val * Math.pow(1000, factor) : number + val * Math.pow(1000, factor));
     }
 
-    public void translateRoman(InputMethodEvent inputMethodEvent) {
-        String text = roman.getText();
-        if (text != null && !text.isBlank() && !text.contains(" ") && !Pattern.compile("^[\\d]").matcher(text).find()) {
-            int number = 0;
-            int factor = 0;
-            for (int i = 0; i < text.length(); i++) {
-                char cha = text.toUpperCase().charAt(i);
-                char chaPre = text.toUpperCase().charAt(i - 1);
-                switch (cha) {
-                    case 'I' :
-                        number = newNumber(number,1,factor,false);
-                        break;
-                    case 'V' :
-                        number = newNumber(number,5,factor,false);
-                        if (chaPre == 'I') number = newNumber(number, 1, factor, true);
-                        break;
-                    case 'X' :
-                        number = newNumber(number,10,factor,false);
-                        switch (chaPre) {
-                            case 'V' :
-                                number = newNumber(number,5,factor,true);
+    private StringBuilder addTier(StringBuilder sb, int tier) {
+        for (int t = 0; t < tier; t++) {
+            sb.insert(0, ")");
+            sb.insert(0, "(");
+        }
+        return sb;
+    }
+
+    public void algorithm() {
+        String arabicText = arabic.getText();
+        String romanText = roman.getText().toUpperCase();
+
+        boolean onlyNumbers = !Pattern.compile("[^\\d]").matcher(arabicText).find();
+
+        if (!arabicText.isBlank() && !arabicText.isEmpty() && !arabicText.contains(" ") && onlyNumbers) {
+            System.out.println("works");
+            int length = arabicText.length() - 1;
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = length; i >= 0; i--) {
+                int number = Integer.parseInt(arabicText.substring(i, i + 1));
+                int oppositePos = length - i;
+                int group = oppositePos % 3;
+                int tier = oppositePos / 3;
+
+                sb = addTier(sb, tier);
+
+                switch (group) {
+                    case 0 :
+                        switch (number) {
+                            case 1 :
+                                sb.insert(1, "I");
                                 break;
-                            case 'I' :
-                                number = newNumber(number,1,factor,true);
+                            case 2 :
+                                sb.insert(1, "II");
                                 break;
-                        }
-                        break;
-                    case 'L' :
-                        number = newNumber(number,50,factor,false);
-                        switch (chaPre) {
-                            case 'X' :
-                                number = newNumber(number,10,factor,true);
+                            case 3 :
+                                sb.insert(1, "III");
                                 break;
-                            case 'V' :
-                                number = newNumber(number,5,factor,true);
+                            case 4 :
+                                sb.insert(1, "IV");
                                 break;
-                            case 'I' :
-                                number = newNumber(number,1,factor,true);
+                            case 5 :
+                                sb.insert(1, "V");
                                 break;
-                        }
-                        break;
-                    case 'C' :
-                        number = newNumber(number,100,factor,false);
-                        switch (chaPre) {
-                            case 'L' :
-                                number = newNumber(number,50,factor,true);
+                            case 6 :
+                                sb.insert(1, "VI");
                                 break;
-                            case 'X' :
-                                number = newNumber(number,10,factor,true);
+                            case 7 :
+                                sb.insert(1, "VII");
                                 break;
-                            case 'V' :
-                                number = newNumber(number,5,factor,true);
+                            case 8 :
+                                sb.insert(1, "VIII");
                                 break;
-                            case 'I' :
-                                number = newNumber(number,1,factor,true);
-                                break;
-                        }
-                        break;
-                    case 'D' :
-                        number = newNumber(number,500,factor,false);
-                        switch (chaPre) {
-                            case 'C' :
-                                number = newNumber(number,100,factor,true);
-                                break;
-                            case 'L' :
-                                number = newNumber(number,50,factor,true);
-                                break;
-                            case 'X' :
-                                number = newNumber(number,10,factor,true);
-                                break;
-                            case 'V' :
-                                number = newNumber(number,5,factor,true);
-                                break;
-                            case 'I' :
-                                number = newNumber(number,1,factor,true);
+                            case 9 :
+                                sb.insert(1, "IX");
                                 break;
                         }
                         break;
-                    case 'M' :
-                        number = newNumber(number,1000,factor,false);
-                        switch (chaPre) {
-                            case 'D' :
-                                number = newNumber(number,500,factor,true);
+                    case 1 :
+                        switch (number) {
+                            case 1 :
+                                sb.insert(1, "X");
                                 break;
-                            case 'C' :
-                                number = newNumber(number,100,factor,true);
+                            case 2 :
+                                sb.insert(1, "XX");
                                 break;
-                            case 'L' :
-                                number = newNumber(number,50,factor,true);
+                            case 3 :
+                                sb.insert(1, "XXX");
                                 break;
-                            case 'X' :
-                                number = newNumber(number,10,factor,true);
+                            case 4 :
+                                sb.insert(1, "XL");
                                 break;
-                            case 'V' :
-                                number = newNumber(number,5,factor,true);
+                            case 5 :
+                                sb.insert(1, "L");
                                 break;
-                            case 'I' :
-                                number = newNumber(number,1,factor,true);
+                            case 6 :
+                                sb.insert(1, "LX");
+                                break;
+                            case 7 :
+                                sb.insert(1, "LXX");
+                                break;
+                            case 8 :
+                                sb.insert(1, "LXXX");
+                                break;
+                            case 9 :
+                                sb.insert(1, "XC");
                                 break;
                         }
                         break;
-                    case '(' :
-                        factor ++;
+                    case 2 :
+                        switch (number) {
+                            case 1 :
+                                sb.insert(1, "C");
+                                break;
+                            case 2 :
+                                sb.insert(1, "CC");
+                                break;
+                            case 3 :
+                                sb.insert(1, "CCC");
+                                break;
+                            case 4 :
+                                sb.insert(1, "CD");
+                                break;
+                            case 5 :
+                                sb.insert(1, "D");
+                                break;
+                            case 6 :
+                                sb.insert(1, "DC");
+                                break;
+                            case 7 :
+                                sb.insert(1, "DCC");
+                                break;
+                            case 8 :
+                                sb.insert(1, "DCCC");
+                                break;
+                            case 9 :
+                                sb.insert(1, "DM");
+                                break;
+                        }
                         break;
-                    case ')' :
-                        factor = Math.max(0, --factor);
-                        break;
+                    default :
+                        throw new IllegalStateException("out of bounds");
                 }
             }
-            arabic.setText(Integer.toString(number));
+            roman.setText(sb.toString());
+        } else {
+            System.out.println("error");
         }
     }
 
-    public void translateArabic(InputMethodEvent inputMethodEvent) {
-     
+    public void translateRoman(KeyEvent inputMethodEvent) {
+
+    }
+
+    public void translateArabic(KeyEvent inputMethodEvent) {
+
     }
 
     public void exitMap(MouseEvent mouseEvent) { System.exit(0); }
