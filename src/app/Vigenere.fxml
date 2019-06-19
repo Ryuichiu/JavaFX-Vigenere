@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0"
             prefWidth="446.0" style="-fx-background-color: #0058e8; -fx-background-radius: 20; -fx-border-radius: 20;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sample.Controller">
-    <Pane layoutX="4.0" prefHeight="68.0" prefWidth="438.0">
-        <TextField fx:id="roman" layoutX="6.0" layoutY="34.0" onInputMethodTextChanged="#translateRoman"
-                   prefColumnCount="18" prefHeight="22.0" prefWidth="208.0"
+    <Pane layoutX="4.0" prefHeight="100.0" prefWidth="438.0">
+        <TextField fx:id="roman" layoutX="6.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0" prefWidth="208.0"
                    promptText="Enter or paste text to convert to Roman"/>
-        <TextField fx:id="arabic" layoutX="219.0" layoutY="34.0" onInputMethodTextChanged="#translateArabic"
-                   prefColumnCount="18" prefHeight="22.0" prefWidth="208.0"
-                   promptText="Enter or paste text to convert to Arabic"/>
+        <TextField fx:id="arabic" layoutX="219.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0"
+                   prefWidth="208.0" promptText="Enter or paste text to convert to Arabic"/>
         <Label layoutX="293.0" layoutY="4.0" text="Arabic" textFill="#e8d100">
             <font>
                 <Font size="22.0"/>
@@ -34,5 +33,12 @@
                 <Font name="System Bold" size="17.0"/>
             </font>
         </Label>
+        <Button fx:id="goButton" layoutX="182.0" layoutY="62.0" mnemonicParsing="false" onMouseClicked="#algorithm"
+                prefHeight="28.0" prefWidth="68.0" style="-fx-background-color: #0017E8; -fx-background-radius: 20;"
+                text="Go!" textFill="#e8d100">
+            <font>
+                <Font name="System Bold" size="17.0"/>
+            </font>
+        </Button>
     </Pane>
 </AnchorPane>
