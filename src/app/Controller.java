@@ -42,7 +42,7 @@ public class Controller {
         });
         roman.textProperty().addListener((observe, old, text) -> {
             if (roman.isFocused())
-                translateRoman(text);
+                translateRoman(text.toUpperCase());
         });
     }
 
@@ -61,7 +61,25 @@ public class Controller {
     }
 
     private void translateRoman(String romanText) {
-        System.out.println("to be continued");
+        boolean onlyRoman = !Pattern.compile("[^()IVXLCDM]").matcher(romanText).find();
+
+        if (!romanText.isBlank() && !romanText.isEmpty() && !romanText.contains(" ") && onlyRoman) {
+            System.out.println("true");
+            int number = 0;
+            int tier = 0;
+            int size = romanText.length();
+            boolean negative = false;
+            
+            for (int i = 0; i < size; i++) {
+                char cha = romanText.charAt(i);
+                char chaNext = romanText.charAt(Math.min(size - 1, i + 1));
+                if (i == size - 1)
+                    negative = true;
+            }
+        } else if (romanText.isEmpty()) {
+            arabic.setText("");
+        } else
+            System.out.println("false");
     }
 
     private void translateArabic(String arabicText) {
