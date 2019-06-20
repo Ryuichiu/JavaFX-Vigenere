@@ -5,13 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.effect.SepiaTone;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.Contract;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class Controller {
@@ -19,26 +21,53 @@ public class Controller {
     public Label exit;
     public Button goButton;
 
-    private int newNumber(int number, int val, int factor, boolean subtract) {
-        return (int) (subtract ? number - val * Math.pow(1000, factor) : number + val * Math.pow(1000, factor));
-    }
-
-    private StringBuilder addTier(StringBuilder sb, int tier) {
-        for (int t = 0; t < tier; t++) {
-            sb.insert(0, ")");
-            sb.insert(0, "(");
+    @Contract("!null, _, _ -> param1")
+    private StringBuilder addTier(StringBuilder sb, int tier,int number) {
+        if (number > 0){
+            for (int t = 0; t < tier; t++) {
+                sb.insert(0, ")");
+            }
+            for (int t = 0; t < tier; t++) {
+                sb.insert(0, "(");
+            }
         }
+
         return sb;
     }
 
-    public void algorithm() {
+    public void initialize() {
+        arabic.textProperty().addListener((observe, old, text) -> {
+            if (arabic.isFocused())
+                translateArabic(text);
+        });
+        roman.textProperty().addListener((observe, old, text) -> {
+            if (roman.isFocused())
+                translateRoman(text);
+        });
+    }
+
+    public void algorithm() throws IOException {
         String arabicText = arabic.getText();
         String romanText = roman.getText().toUpperCase();
 
+        if (arabicText.isEmpty())
+            if (romanText.isEmpty())
+                JOptionPane.showMessageDialog(null, "Please enter a Text", "Error", JOptionPane.ERROR_MESSAGE);
+            else
+                translateRoman(romanText);
+        else
+            if (romanText.isEmpty())
+                translateArabic(arabicText);
+    }
+
+    private void translateRoman(String romanText) {
+        System.out.println("to be continued");
+    }
+
+    private void translateArabic(String arabicText) {
         boolean onlyNumbers = !Pattern.compile("[^\\d]").matcher(arabicText).find();
 
         if (!arabicText.isBlank() && !arabicText.isEmpty() && !arabicText.contains(" ") && onlyNumbers) {
-            System.out.println("works");
             int length = arabicText.length() - 1;
             StringBuilder sb = new StringBuilder();
 
@@ -48,99 +77,99 @@ public class Controller {
                 int group = oppositePos % 3;
                 int tier = oppositePos / 3;
 
-                sb = addTier(sb, tier);
+                sb = addTier(sb, tier, number);
 
                 switch (group) {
                     case 0 :
                         switch (number) {
                             case 1 :
-                                sb.insert(1, "I");
+                                sb.insert(tier, "I");
                                 break;
                             case 2 :
-                                sb.insert(1, "II");
+                                sb.insert(tier, "II");
                                 break;
                             case 3 :
-                                sb.insert(1, "III");
+                                sb.insert(tier, "III");
                                 break;
                             case 4 :
-                                sb.insert(1, "IV");
+                                sb.insert(tier, "IV");
                                 break;
                             case 5 :
-                                sb.insert(1, "V");
+                                sb.insert(tier, "V");
                                 break;
                             case 6 :
-                                sb.insert(1, "VI");
+                                sb.insert(tier, "VI");
                                 break;
                             case 7 :
-                                sb.insert(1, "VII");
+                                sb.insert(tier, "VII");
                                 break;
                             case 8 :
-                                sb.insert(1, "VIII");
+                                sb.insert(tier, "VIII");
                                 break;
                             case 9 :
-                                sb.insert(1, "IX");
+                                sb.insert(tier, "IX");
                                 break;
                         }
                         break;
                     case 1 :
                         switch (number) {
                             case 1 :
-                                sb.insert(1, "X");
+                                sb.insert(tier, "X");
                                 break;
                             case 2 :
-                                sb.insert(1, "XX");
+                                sb.insert(tier, "XX");
                                 break;
                             case 3 :
-                                sb.insert(1, "XXX");
+                                sb.insert(tier, "XXX");
                                 break;
                             case 4 :
-                                sb.insert(1, "XL");
+                                sb.insert(tier, "XL");
                                 break;
                             case 5 :
-                                sb.insert(1, "L");
+                                sb.insert(tier, "L");
                                 break;
                             case 6 :
-                                sb.insert(1, "LX");
+                                sb.insert(tier, "LX");
                                 break;
                             case 7 :
-                                sb.insert(1, "LXX");
+                                sb.insert(tier, "LXX");
                                 break;
                             case 8 :
-                                sb.insert(1, "LXXX");
+                                sb.insert(tier, "LXXX");
                                 break;
                             case 9 :
-                                sb.insert(1, "XC");
+                                sb.insert(tier, "XC");
                                 break;
                         }
                         break;
                     case 2 :
                         switch (number) {
                             case 1 :
-                                sb.insert(1, "C");
+                                sb.insert(tier, "C");
                                 break;
                             case 2 :
-                                sb.insert(1, "CC");
+                                sb.insert(tier, "CC");
                                 break;
                             case 3 :
-                                sb.insert(1, "CCC");
+                                sb.insert(tier, "CCC");
                                 break;
                             case 4 :
-                                sb.insert(1, "CD");
+                                sb.insert(tier, "CD");
                                 break;
                             case 5 :
-                                sb.insert(1, "D");
+                                sb.insert(tier, "D");
                                 break;
                             case 6 :
-                                sb.insert(1, "DC");
+                                sb.insert(tier, "DC");
                                 break;
                             case 7 :
-                                sb.insert(1, "DCC");
+                                sb.insert(tier, "DCC");
                                 break;
                             case 8 :
-                                sb.insert(1, "DCCC");
+                                sb.insert(tier, "DCCC");
                                 break;
                             case 9 :
-                                sb.insert(1, "DM");
+                                sb.insert(tier, "CM");
                                 break;
                         }
                         break;
@@ -149,17 +178,11 @@ public class Controller {
                 }
             }
             roman.setText(sb.toString());
+        } else if (arabicText.isEmpty()) {
+            roman.setText("");
         } else {
             System.out.println("error");
         }
-    }
-
-    public void translateRoman(KeyEvent inputMethodEvent) {
-
-    }
-
-    public void translateArabic(KeyEvent inputMethodEvent) {
-
     }
 
     public void exitMap(MouseEvent mouseEvent) { System.exit(0); }
@@ -180,16 +203,4 @@ public class Controller {
     public void setUnpressed(MouseEvent mouseEvent) {
         exit.setEffect(null);
     }
-
-    /**
-     * I =    1
-     * V =    5
-     * X =   10
-     * L =   50
-     * C =  100
-     * D =  500
-     * M = 1000
-     *
-     *() = *1000
-     */
 }
