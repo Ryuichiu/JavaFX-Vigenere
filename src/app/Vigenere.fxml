@@ -13,9 +13,10 @@
             fx:controller="sample.Controller">
     <Pane layoutX="4.0" prefHeight="100.0" prefWidth="438.0">
         <TextField fx:id="roman" layoutX="6.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0" prefWidth="208.0"
-                   promptText="Enter or paste text to convert to Roman"/>
+                   promptText="Enter or paste text to convert to Roman" style="-fx-background-radius: 20;"/>
         <TextField fx:id="arabic" layoutX="219.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0"
-                   prefWidth="208.0" promptText="Enter or paste text to convert to Arabic"/>
+                   prefWidth="208.0" promptText="Enter or paste text to convert to Arabic"
+                   style="-fx-background-radius: 20;"/>
         <Label layoutX="293.0" layoutY="4.0" text="Arabic" textFill="#e8d100">
             <font>
                 <Font size="22.0"/>
