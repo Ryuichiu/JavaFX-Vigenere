@@ -61,21 +61,91 @@ public class Controller {
     }
 
     private void translateRoman(String romanText) {
-        boolean onlyRoman = !Pattern.compile("[^()IVXLCDM]").matcher(romanText).find();
-
-        if (!romanText.isBlank() && !romanText.isEmpty() && !romanText.contains(" ") && onlyRoman) {
+        if (ControllerPattern.isValidRomanPattern(romanText)) {
             System.out.println("true");
             int number = 0;
             int tier = 0;
             int size = romanText.length();
-            boolean negative = false;
-            
+
             for (int i = 0; i < size; i++) {
                 char cha = romanText.charAt(i);
                 char chaNext = romanText.charAt(Math.min(size - 1, i + 1));
-                if (i == size - 1)
-                    negative = true;
+                char chaPre = romanText.charAt(Math.max(0, i - 1));
+
+                switch (cha) {
+                    case '(' :
+                        tier++;
+                        break;
+                    case ')' :
+                        tier--;
+                        break;
+                    case 'I' :
+                        if (i < size - 1) {
+                            switch (chaNext) {
+                                case 'V':
+                                    number = number + 4 * (int) Math.pow(1000, tier);
+                                    break;
+                                case 'X':
+                                    number = number + 9 * (int) Math.pow(1000, tier);
+                                    break;
+                                default: // wird nicht zu 1 oder 2 oder 3 sondern zu 0
+                                    number = number + (int) Math.pow(1000, tier);
+                                    break;
+                            }
+                        } else
+                            number = number + (int) Math.pow(1000, tier);
+                        break;
+                    case 'V' :
+                        if (chaPre != 'I')
+                            number = number + 5 * (int)Math.pow(1000, tier);
+                        break;
+                    case 'X' :
+                        switch (chaNext) {
+                            case 'L' :
+                                number = number + 40 * (int)Math.pow(1000, tier);
+                                break;
+                            case 'C' :
+                                number = number + 90 * (int)Math.pow(1000, tier);
+                                break;
+                            default :
+                                if (chaPre != 'I')
+                                    number = number + 10 * (int)Math.pow(1000, tier);
+                                break;
+                        }
+                        break;
+                    case 'L' :
+                        if (chaPre != 'X')
+                            number = number + 50 * (int)Math.pow(1000, tier);
+                        break;
+                    case 'C' :
+                        switch (chaNext) {
+                            case 'D' :
+                                number = number + 400 * (int)Math.pow(1000, tier);
+                                break;
+                            case 'M' :
+                                number = number + 900 * (int)Math.pow(1000, tier);
+                                break;
+                            default :
+                                if (chaPre != 'X')
+                                    number = number + 100 * (int)Math.pow(1000, tier);
+                                break;
+                        }
+                        break;
+                    case 'D' :
+                        if (chaPre != 'C')
+                            number = number + 100 * (int)Math.pow(1000, tier);
+                        break;
+                    case 'M' :
+                        if (chaPre != 'C')
+                            number += 1000;
+                        break;
+                }
             }
+
+            arabic.requestFocus();
+            roman.setText(romanText);
+            roman.requestFocus();
+            arabic.setText(Integer.toString(number));
         } else if (romanText.isEmpty()) {
             arabic.setText("");
         } else
