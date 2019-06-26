@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 public class ControllerPattern {
+    //main only for debugging
     public static void main(String[] args) {
         isValidRomanPattern("");
     }
