@@ -9,12 +9,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 public class ControllerPattern {
-    //main only for debugging
+    //debugging only
     public static void main(String[] args) {
         isValidRomanPattern("");
     }
 
-    public static boolean isValidRomanPattern(@NotNull String romanText) {
+    static boolean isValidRomanPattern(@NotNull String romanText) {
         boolean onlyRoman = !Pattern.compile("[^()IVXLCDM]").matcher(romanText).find();
         if (romanText.isEmpty() || !onlyRoman) return false;
 
@@ -25,6 +25,21 @@ public class ControllerPattern {
             if (s.matches("[IXC]+") && s.length() > 3) noIllegalPattern.set(false);
             if (s.matches("[VLDM]+") && s.length() > 1) noIllegalPattern.set(false);
         });
+
+        for (int i = 0; i < subStringList.size(); i++){
+            if (i < subStringList.size() - 1) {
+                String subStringNext = subStringList.get(i + 1);
+                switch (subStringList.get(i)) {
+                    case "(" :
+                        if (subStringNext.equals(")")) return false;
+                        break;
+                    case "I" :
+                        if (!subStringNext.equals("V") && !subStringNext.equals("X")) return false;
+                        break;
+                    case "II" :
+                }
+            }
+        }
 
         String brackets = romanText.replaceAll("[^()]","");
         return noIllegalPattern.get() && validBrackets(brackets);
