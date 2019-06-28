@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.effect.SepiaTone;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -40,13 +42,14 @@ public class Controller {
             if (arabic.isFocused())
                 translateArabic(text);
         });
+
         roman.textProperty().addListener((observe, old, text) -> {
             if (roman.isFocused())
                 translateRoman(text.toUpperCase());
         });
     }
 
-    public void algorithm() throws IOException {
+    public void clickGo() throws IOException {
         String arabicText = arabic.getText();
         String romanText = roman.getText().toUpperCase();
 
@@ -155,7 +158,7 @@ public class Controller {
     private void translateArabic(String arabicText) {
         boolean onlyNumbers = !Pattern.compile("[^\\d]").matcher(arabicText).find();
 
-        if (!arabicText.isBlank() && !arabicText.isEmpty() && !arabicText.contains(" ") && onlyNumbers) {
+        if (!arabicText.isEmpty() && onlyNumbers) {
             int length = arabicText.length() - 1;
             StringBuilder sb = new StringBuilder();
 
@@ -290,5 +293,15 @@ public class Controller {
 
     public void setUnpressed(MouseEvent mouseEvent) {
         exit.setEffect(null);
+    }
+
+    public void increaseAndDecrease(KeyEvent keyEvent) {
+        if (!arabic.getText().isEmpty() && !roman.getText().isEmpty()){
+            if (keyEvent.getCode() == KeyCode.UP)
+                translateArabic(Integer.toString(Integer.parseInt(arabic.getText()) + 1));
+
+            if (keyEvent.getCode() == KeyCode.DOWN)
+                translateArabic(Integer.toString(Integer.parseInt(arabic.getText()) - 1));
+        }
     }
 }
