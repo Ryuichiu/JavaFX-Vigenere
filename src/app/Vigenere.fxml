@@ -7,38 +7,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0"
-            prefWidth="446.0" style="-fx-background-color: #0058e8; -fx-background-radius: 20; -fx-border-radius: 20;"
-            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="446.0" style="-fx-background-color: #0058e8; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <Pane layoutX="4.0" prefHeight="100.0" prefWidth="438.0">
-        <TextField fx:id="roman" layoutX="6.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0" prefWidth="208.0"
-                   promptText="Enter or paste text to convert to Roman" style="-fx-background-radius: 20;"/>
-        <TextField fx:id="arabic" layoutX="219.0" layoutY="34.0" prefColumnCount="18" prefHeight="22.0"
-                   prefWidth="208.0" promptText="Enter or paste text to convert to Arabic"
-                   style="-fx-background-radius: 20;"/>
+        <TextField fx:id="roman" layoutX="6.0" layoutY="34.0" onKeyPressed="#increaseAndDecrease" prefColumnCount="18" prefHeight="22.0" prefWidth="208.0" promptText="Enter or paste text to convert to Roman" style="-fx-background-radius: 20;" />
+        <TextField fx:id="arabic" layoutX="219.0" layoutY="34.0" onKeyPressed="#increaseAndDecrease" prefColumnCount="18" prefHeight="22.0" prefWidth="208.0" promptText="Enter or paste text to convert to Arabic" style="-fx-background-radius: 20;" />
         <Label layoutX="293.0" layoutY="4.0" text="Arabic" textFill="#e8d100">
             <font>
-                <Font size="22.0"/>
+                <Font size="22.0" />
             </font>
         </Label>
         <Label layoutX="76.0" layoutY="4.0" text="Roman" textFill="#e8d100">
             <font>
-                <Font size="22.0"/>
+                <Font size="22.0" />
             </font>
         </Label>
-        <Label fx:id="exit" layoutX="421.0" layoutY="4.0" onMouseClicked="#exitMap" onMouseEntered="#highlight"
-               onMouseExited="#unhighlight" onMousePressed="#setPressed" onMouseReleased="#setUnpressed" text="X"
-               textAlignment="CENTER" textFill="#e8002b">
+        <Label fx:id="exit" layoutX="421.0" layoutY="4.0" onMouseClicked="#exitMap" onMouseEntered="#highlight" onMouseExited="#unhighlight" onMousePressed="#setPressed" onMouseReleased="#setUnpressed" text="X" textAlignment="CENTER" textFill="#e8002b">
             <font>
-                <Font name="System Bold" size="17.0"/>
+                <Font name="System Bold" size="17.0" />
             </font>
         </Label>
-        <Button fx:id="goButton" layoutX="182.0" layoutY="62.0" mnemonicParsing="false" onMouseClicked="#algorithm"
-                prefHeight="28.0" prefWidth="68.0" style="-fx-background-color: #0017E8; -fx-background-radius: 20;"
-                text="Go!" textFill="#e8d100">
+        <Button fx:id="goButton" layoutX="182.0" layoutY="62.0" mnemonicParsing="false" onMouseClicked="#clickGo" prefHeight="28.0" prefWidth="68.0" style="-fx-background-color: #0017E8; -fx-background-radius: 20;" text="Go!" textFill="#e8d100">
             <font>
-                <Font name="System Bold" size="17.0"/>
+                <Font name="System Bold" size="17.0" />
             </font>
         </Button>
     </Pane>
